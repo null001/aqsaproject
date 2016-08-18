@@ -135,26 +135,24 @@ public class MainActivity extends ActionBarActivity implements SwipyRefreshLayou
         //unregister();
         String storedId=this.storage.getString(this.REG_ID,"");
         //Log.d(TAG,"storageId = "+storageId);
-//        this.list = (ListView) findViewById(R.id.listView);
-//
-//
-//
-//
-//        if(TextUtils.isEmpty(storedId)){
-//            //Log.d(TAG,"id is not registered");
-//            registerInBackground();
-//        }else
-//        {
-//         //   Log.d(TAG,"id is "+storedId);
-//        }
-//
-//
-//        swipeRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-//        swipeRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
-//        swipeRefreshLayout.setOnRefreshListener(this);
-//
-//        this.adapter = new custom_adapter(applicationContext,headerArray,contents,dates);
-//        this.list.setAdapter(this.adapter);
+        this.list = (ListView) findViewById(R.id.mainList);
+
+
+        if(TextUtils.isEmpty(storedId)){
+            //Log.d(TAG,"id is not registered");
+            registerInBackground();
+        }else
+        {
+         //   Log.d(TAG,"id is "+storedId);
+        }
+
+
+        swipeRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.scrollView);
+        swipeRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        this.adapter = new custom_adapter(applicationContext,headerArray,contents,dates);
+        this.list.setAdapter(this.adapter);
        gson = new Gson();
 
         //navigation bar
