@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.ArrayRes;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
@@ -111,7 +112,10 @@ public class MainActivity extends ActionBarActivity implements SwipyRefreshLayou
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
-    private String [] navigationItlemTitle ;
+    private String [] navigationItlemTitle;
+    private ArrayList<navDrawerItem> navDrawerItems;
+    private navListAdapter navAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -146,6 +150,13 @@ public class MainActivity extends ActionBarActivity implements SwipyRefreshLayou
          //   Log.d(TAG,"id is "+storedId);
         }
 
+        drawerList =(ListView) findViewById(R.id.nav_drawer);
+        navigationItlemTitle = getResources().getStringArray(R.array.navigation_drawer_items);
+        navDrawerItems = new ArrayList<navDrawerItem>();
+        addItemsToNav();
+        navAdapter = new navListAdapter(applicationContext,navDrawerItems);
+
+        drawerList.setAdapter(navAdapter);
 
         swipeRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.scrollView);
         swipeRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
@@ -153,28 +164,19 @@ public class MainActivity extends ActionBarActivity implements SwipyRefreshLayou
 
         this.adapter = new custom_adapter(applicationContext,headerArray,contents,dates);
         this.list.setAdapter(this.adapter);
-       gson = new Gson();
+        gson = new Gson();
 
-        //navigation bar
-//        navigationItlemTitle = getResources().getStringArray(R.array.navigation_drawer_item_array);
-//        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawerList = (ListView) findViewById(R.id.left_drawer);
-//        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,navigationItlemTitle));
-//        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Fragment fragment = null;
-//                switch (position)
-//                {
-//                    case 1:
-//                        fragment = new Fragment1();
-//                }
-//                FragmentManager fragmentManager = getFragmentManager();
-//                fragmentManager.beginTransaction().replace(R.id.content_frame,fragment).commit();
-//                drawerList.setItemChecked(position,true);
-//            }
-//        });
 
+
+    }
+
+    void addItemsToNav()
+    {
+        int size = navigationItlemTitle.length;
+        for (int i=0 ;i<size;i++)
+        {
+            navDrawerItems.add(new navDrawerItem(navigationItlemTitle[i]));
+        }
     }
 
     @Override
@@ -749,7 +751,7 @@ public class MainActivity extends ActionBarActivity implements SwipyRefreshLayou
     {
         super.onResume();
 
-        checkGoogleServices();
+         checkGoogleServices();
         //retrieveData();
     }
 
